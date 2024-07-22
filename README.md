@@ -53,6 +53,23 @@ The main script (`index.js`) does the following:
 3. Transforms each number in the CSV into an object with an array.
 4. Writes the transformed JSON data to the specified output file.
 
+## Importing to MONGO with mongoimport tool
+
+To import your CSV dataset to MongoDB, you can use the mongoimport tool. Here are the steps:
+1.Make sure you have MongoDB installed on your local machine and the MongoDB service is running.
+2.Open the command prompt (CMD on Windows).
+3.Navigate to the directory where your CSV file is located.
+4.Run the following command:
+
+mongoimport --db yourDatabaseName --collection yourCollectionName --type csv --headerline --file yourfile.csv
+
+Replace yourDatabaseName with the name of your database, yourCollectionName with the name of your collection, and yourfile.csv with the name of your CSV file.
+
+This command will import the CSV file to the specified collection in the specified database.
+The --headerline option indicates that the first line of the CSV file contains the field names.
+
+Note: If your database requires authentication, you will need to add the --username and --password options to the mongoimport command.
+
 ### Example Code
 ```bash
 const csv = require("csvtojson");
