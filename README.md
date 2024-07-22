@@ -61,7 +61,7 @@ To import your CSV dataset to MongoDB, you can use the mongoimport tool. Here ar
 3.Navigate to the directory where your CSV file is located.
 4.Run the following command:
 
-mongoimport --db yourDatabaseName --collection yourCollectionName --type csv --headerline --file yourfile.csv
+mongoimport --uri yourDatabaseName --collection yourCollectionName --type json --file yourfile.json --jsonArray
 
 Replace yourDatabaseName with the name of your database, yourCollectionName with the name of your collection, and yourfile.csv with the name of your CSV file.
 
