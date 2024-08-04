@@ -22,12 +22,11 @@ Most online CSV to JSON converters treat each row of the CSV as a JSON object an
 1. Clone the repository:
     ```bash
     git clone https://github.com/yourusername/csv-to-json-transformer.git
-    cd csv-to-json-transformer
     ```
 
 2. Install the required dependencies:
     ```bash
-    npm install csvtojson
+    npm install
     ```
 
 ## Usage
@@ -73,20 +72,37 @@ Note: If your database requires authentication, you will need to add the --usern
 
 ### Example Code
 ```bash
-const csv = require("csvtojson");
 const fs = require("fs");
+const path = require("path");
 
-csv()
-  .fromFile("C:\\Users\\XXX\\Desktop\\XXXX\\XXX\\XXXX\\XXX.csv")
-  .then((jsonObj) => {
-    const transformedObj = jsonObj.map((item) => {
-      return {
-        numbers: [parseInt(Object.values(item)[0])],
-      };
-    });
-    fs.writeFileSync(
-      "C:\\Users\\XXX\\Desktop\\XXXX\\XXX\\XXXX\\bonus.json",
-      JSON.stringify(transformedObj, null, 2)
-    );
+function generateTree(directoryPath, indent = "", isLast = true) {
+  const items = fs.readdirSync(directoryPath);
+  items.forEach((item, index) => {
+    // ignore directories
+    if (item === "node_modules" || item === ".git") {
+      return; // skip then
+    }
+
+    const itemPath = path.join(directoryPath, item);
+    const stats = fs.statSync(itemPath);
+
+    // symbols
+    const symbol = isLast ? "└──" : "├──";
+
+    console.log(`${indent}${symbol} ${item}${stats.isDirectory() ? "/" : ""}`); // to add / to directories
+
+    if (stats.isDirectory()) {
+      // symbol for subdirectories
+      const childIndent = `${indent}${isLast ? "    " : "│   "}`;
+      // recursive call to the subdirectory
+      generateTree(itemPath, childIndent, index === items.length - 1);
+    }
   });
+}
 
+// paste your path here and run node script-alternative
+const projectDirectory =
+  "C:\\Users\\user\\Desktop\\project\\fullstack-project\\frontend";
+
+console.log("Tree:");
+generateTree(projectDirectory);
